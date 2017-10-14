@@ -8,9 +8,7 @@
 #include <sstream>
 #include <iostream>
 #include "list.h"
-#include "list.cpp"
 #include "cache.h"
-#include "cache.cpp"
 //the thread function
 void *connection_handler(void *);
 
@@ -34,7 +32,7 @@ int main(int argc , char *argv[])
     //Prepare the sockaddr_in structure
     server.sin_family = AF_INET;
     server.sin_addr.s_addr = INADDR_ANY;
-    server.sin_port = htons( 8879 );
+    server.sin_port = htons( 8875 );
 
     //Bind
     if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
@@ -107,6 +105,13 @@ void *connection_handler(void *socket_desc)
         int pos = str.find(",");
         int acc = str.find("!");
         int acc1 = str.find("#");
+        int acc2 = str.find("$");
+        int acc3 = str.find("¡");
+        int acc4 = str.find("?");
+        int acc5 = str.find("&");
+        int acc6 = str.find("=");
+        int acc7 = str.find(")");
+        int acc8 = str.find("/");
 
         if(acc > 0){
             string key = str.substr(0, pos);
@@ -124,7 +129,7 @@ void *connection_handler(void *socket_desc)
                 write(sock , "Elemento creado satisfactoriamente" , 34);
 
             }
-            //list_1.print();
+            list_1.print();
             cache.print();
         }
         if(acc1 > 0){
@@ -163,6 +168,75 @@ void *connection_handler(void *socket_desc)
             cache.print();
 
         }
+        if(acc2 >= 0){
+            int a = cache.cant();
+            stringstream ss;
+            ss << a;
+            string str = ss.str();
+            char* cant = strdup(str.c_str());
+            write(sock , cant , 100);
+            bzero(client_message, strlen(client_message));
+        }
+        if(acc5 >= 0){
+            int a = list_1.cant();
+            stringstream ss;
+            ss << a;
+            string str = ss.str();
+            char* cant = strdup(str.c_str());
+            write(sock , cant , 100);
+            bzero(client_message, strlen(client_message));
+        }
+        if(acc3 > 0){
+            string num = str.substr(0, acc3);
+            int num1 = atoi(num.c_str());
+            string key = cache.getkey(num1);
+            char* chr = strdup(key.c_str());
+            write(sock , chr , 100);
+            bzero(client_message, strlen(client_message));
+        }
+        if(acc4 > 0){
+            string num = str.substr(0, acc4);
+            int num1 = atoi(num.c_str());
+            string key = cache.getvalue(num1);
+            char* chr = strdup(key.c_str());
+            write(sock , chr , 100);
+            bzero(client_message, strlen(client_message));
+        }
+        if(acc6 > 0){
+            string num = str.substr(0, acc6);
+            int num1 = atoi(num.c_str());
+            string key = list_1.getkey(num1);
+            char* chr = strdup(key.c_str());
+            write(sock , chr , 100);
+            bzero(client_message, strlen(client_message));
+        }
+        if(acc7 > 0){
+            string num = str.substr(0, acc7);
+            int num1 = atoi(num.c_str());
+            string key = list_1.getvalue(num1);
+            char* chr = strdup(key.c_str());
+            write(sock , chr , 100);
+            bzero(client_message, strlen(client_message));
+        }
+        if(acc8 > 0){
+            string key = str.substr(0, pos);
+            string value = str.substr(pos+1, (acc8-pos-1));
+            int exist = list_1.search(key);
+            int exist1 = cache.search(key);
+
+            if (exist > 0){
+                list_1.del_by_data(value);
+            }
+            if (exist1 > 0){
+                cache.del_by_data(key);
+            }
+            write(sock , "Eliminado" , 100);
+            list_1.print();
+            cache.print();
+
+        }
+
+
 
 
     }

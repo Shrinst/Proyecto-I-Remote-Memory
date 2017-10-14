@@ -3,67 +3,54 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "rmlib.h"
+#include "rmRef_H.h"
 
 
 using namespace std;
-void newint(char *key, int *value){
 
-    void *vptr = value;
-    //int *x = (int *)vptr;
-    //std::cout << *x << "\n";
-    //rm_new(&key, vptr, sizeof(value));
-}
+/**
+*@brief Metodo principal de pruebas
+*/
 int main(){
 
-    rm_init(0,8879,0,0);
+    rm_init(0,8875,0,0);
 
     char *key;
-    key = "Color";
+    key = "Cantidad";
     char *value;
-    value = "Verde";
-    //void* vptr = &cant;
-
-    //rm_new(key, vptr, 0);
-
-    //newint(&key, &cant);
+    value = "78";
 
     void *vptr = value;
     rm_new(key, vptr, sizeof(value));
 
-    key = "Color1";
-    value = "Verde1";
+    key = "ColorCasa";
+    value = "Verde";
     vptr = value;
     rm_new(key, vptr, sizeof(value));
 
-    key = "Color2";
-    value = "Verde2";
+    key = "Puntos";
+    value = "28573";
     vptr = value;
     rm_new(key, vptr, sizeof(value));
 
-    key = "Color3";
-    value = "Verde3";
+    key = "Nombre";
+    value = "Vinicio";
     vptr = value;
     rm_new(key, vptr, sizeof(value));
 
-    key = "Color4";
-    value = "Verde4";
+    key = "Apellido";
+    value = "Monge";
     vptr = value;
     rm_new(key, vptr, sizeof(value));
 
-    key = "Color5";
-    value = "Verde5";
+    key = "Edades";
+    value = "20";
     vptr = value;
     rm_new(key, vptr, sizeof(value));
 
-    key = "Color3";
-    rm_get(key);
+    //rmRef_H *handler = new rmRef_H(*key, *value);
 
-    //void* vptr = key;
-    //char *x = (char *)vptr;
-    //std::cout << *x << "\n";
 
-    //string cad1="Esta es mi primer cadena";
-    //int pos = cad1.find("mi");
-    //string cad4 = cad1.substr (pos);
-    //std::cout << cad4 << "\n";
+    rm_delete(handler);
+
 }
