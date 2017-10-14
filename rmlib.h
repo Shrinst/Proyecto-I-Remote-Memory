@@ -7,6 +7,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include "rmRef_H.h"
 
 int sock;
 struct sockaddr_in server;
@@ -62,7 +63,7 @@ void rm_new (char *key, void *value, int value_size){
     puts(server_reply);
     //close(sock);
 }
-void rm_get(char* key){
+void rm_get1(char* key){
 
     char message[1000];
     char accion[1000];
@@ -81,4 +82,48 @@ void rm_get(char* key){
     }
 
     puts(server_reply);
+}
+int rm_getCN(){
+    char accion[1000];
+    strcpy(accion, "$");
+
+    if( send(sock , accion , strlen(accion) , 0) < 0){
+
+        puts("Falló el envio");
+    }
+
+    if( recv(sock , server_reply , 2000 , 0) < 0){
+
+        puts("recv failed");
+    }
+    puts(server_reply);
+    int sum = atoi( server_reply );
+    return sum;
+}
+rmRef_H* rm_get(char* key){
+
+    rmRef_H *nodo;
+    return nodo;
+}
+void rm_delete(rmRef_H* handler){
+
+    char message[1000];
+    char message1[1000];
+    char separador[1000];
+    char accion[1000];
+    strcpy(accion, "/");
+    strcpy(separador, ",");
+    strcpy(message, (char *)handler->key);
+    strcpy(message1, (char *)handler->data);
+    strncat (message, separador, strlen(separador));
+    strncat (message, message1, strlen(message1));
+    strncat (message, accion, strlen(accion));
+    puts(message);
+    if( send(sock , message , strlen(message) , 0) < 0){
+        puts("Falló el envio");
+    }
+    if( recv(sock , server_reply , 2000 , 0) < 0){
+
+        puts("recv failed");
+    }
 }
