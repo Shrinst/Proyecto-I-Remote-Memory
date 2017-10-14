@@ -83,6 +83,26 @@ void rm_get1(char* key){
 
     puts(server_reply);
 }
+char* rm_getM(char* key){
+
+    char message[1000];
+    char accion[1000];
+    strcpy(message, key);
+    strcpy(accion, "!");
+    strncat (message, accion, strlen(accion));
+
+    if( send(sock , message , strlen(message) , 0) < 0){
+
+        puts("Falló el envio");
+    }
+
+    if( recv(sock , server_reply , 2000 , 0) < 0){
+
+        puts("recv failed");
+    }
+
+    return server_reply;
+}
 int rm_getCN(){
     char accion[1000];
     strcpy(accion, "$");
@@ -96,14 +116,120 @@ int rm_getCN(){
 
         puts("recv failed");
     }
-    puts(server_reply);
     int sum = atoi( server_reply );
     return sum;
 }
-rmRef_H* rm_get(char* key){
+int rm_getMN(){
+    char accion[1000];
+    strcpy(accion, "&");
 
-    rmRef_H *nodo;
-    return nodo;
+    if( send(sock , accion , strlen(accion) , 0) < 0){
+
+        puts("Falló el envio");
+    }
+
+    if( recv(sock , server_reply , 2000 , 0) < 0){
+
+        puts("recv failed");
+    }
+    int sum = atoi( server_reply );
+    return sum;
+}
+std::string rm_getCK(int num){
+    std::stringstream ss;
+    ss << num;
+    std::string str = ss.str();
+    char* cant = strdup(str.c_str());
+    char accion[1000];
+    strcpy(accion, "¡");
+    strncat (cant, accion, strlen(accion));
+
+    if( send(sock , cant , strlen(cant) , 0) < 0){
+
+        puts("Falló el envio");
+    }
+
+    if( recv(sock , server_reply , 2000 , 0) < 0){
+
+        puts("recv failed");
+    }
+    std::stringstream ss1;
+    std::string str1;
+    ss1 << server_reply;
+    ss1 >> str1;
+    return str1;
+}
+std::string rm_getCV(int num){
+    std::stringstream ss;
+    ss << num;
+    std::string str = ss.str();
+    char* cant = strdup(str.c_str());
+    char accion[1000];
+    strcpy(accion, "?");
+    strncat (cant, accion, strlen(accion));
+
+    if( send(sock , cant , strlen(cant) , 0) < 0){
+
+        puts("Falló el envio");
+    }
+
+    if( recv(sock , server_reply , 2000 , 0) < 0){
+
+        puts("recv failed");
+    }
+    std::stringstream ss1;
+    std::string str1;
+    ss1 << server_reply;
+    ss1 >> str1;
+    return str1;
+}
+std::string rm_getMK(int num){
+    std::stringstream ss;
+    ss << num;
+    std::string str = ss.str();
+    char* cant = strdup(str.c_str());
+    char accion[1000];
+    strcpy(accion, "=");
+    strncat (cant, accion, strlen(accion));
+
+    if( send(sock , cant , strlen(cant) , 0) < 0){
+
+        puts("Falló el envio");
+    }
+
+    if( recv(sock , server_reply , 2000 , 0) < 0){
+
+        puts("recv failed");
+    }
+    std::stringstream ss1;
+    std::string str1;
+    ss1 << server_reply;
+    ss1 >> str1;
+    return str1;
+}
+std::string rm_getMV(int num){
+    std::stringstream ss;
+    ss << num;
+    std::string str = ss.str();
+    char* cant = strdup(str.c_str());
+    char accion[1000];
+    strcpy(accion, ")");
+    strncat (cant, accion, strlen(accion));
+
+    if( send(sock , cant , strlen(cant) , 0) < 0){
+
+        puts("Falló el envio");
+    }
+
+    if( recv(sock , server_reply , 2000 , 0) < 0){
+
+        puts("recv failed");
+    }
+    std::stringstream ss1;
+    std::string str1;
+    ss1 << server_reply;
+    ss1 >> str1;
+    return str1;
 }
 void rm_delete(rmRef_H* handler){
 
